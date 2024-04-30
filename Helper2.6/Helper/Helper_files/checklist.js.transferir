@@ -1,0 +1,679 @@
+function submitForm() {
+    let mensagem = "";
+    let contadorAnexo;
+    const anexosInput3 = document.getElementById('anexosInput3');
+    const anexosSpan3 = document.getElementById('anexosSpan3');
+    const anexosQuemFaz3 = document.getElementById('quemFaz3');
+    const botaoAnexo = document.getElementById('botaoanexo');
+    const botaoAnexo2 = document.getElementById('botaoanexo2');
+    const botaoRemoverAnexo = document.getElementById('botaoremoveranexo');
+    const botaoRemoverAnexo2 = document.getElementById('botaoremoveranexo2');
+    const anexosInput2 = document.getElementById('anexosInput2');
+    const anexosSpan2 = document.getElementById('anexosSpan2');
+    const anexosQuemFaz2 = document.getElementById('quemFaz2');
+    const dataVigencia = document.getElementById('dataVigencia').value;
+    const iptuSelect = document.getElementById('iptu');
+    const iptuValor = document.getElementById('iptuValor');
+    const outrosIptu = document.getElementById('iptuOutros');
+    const condominioSelect = document.getElementById('condominio');
+    const condominioValor = document.getElementById('condominioValor');
+    const condominioOutros = document.getElementById('condominioOutros');
+    const relistingSelect = document.getElementById('relisting');
+    const relistingData = document.getElementById('dataSegura').value;
+    const relistingData2 = document.getElementById('dataDesocupacao').value;
+    const exclusividadeSelect = document.getElementById('exclusividade');
+    const entradaSelect = document.getElementById('entrada');
+    const flexivelInput = document.getElementById('flexivel');
+    const exataInput = document.getElementById('exata').value;
+    const taxaInput = document.getElementById('taxa');
+    const representanteSelect = document.getElementById('representante');
+    const representanteInput = document.getElementById('outrosRepresentanteInput');
+    const dadosBancarios = document.getElementById('dadosbancarios');
+    const fupDadosBancariosInput = document.getElementById('fupDadosBancariosInput');
+    const propostasIQSelect = document.getElementById('propostasIQ');
+    const propostasIQInput = document.getElementById('propostasIQInput');
+    const valoresCorretosSelect = document.getElementById('valoresCorretos');
+    const anexosSelect = document.getElementById('anexos');
+    const anexosQuemFaz = document.getElementById('quemFaz');
+    const anexosInput = document.getElementById('anexosInput');
+    const statusSelect = document.getElementById('statusContato');
+    const observacaoInput = document.getElementById('statusObservacao');
+    const contatoAtivoSelect = document.getElementById('contatoAtivo');
+    const semSucessoInput = document.getElementById('semSucessoInput');
+    const dataVigenciaFormatada = formatarData(dataVigencia);
+    const dataSeguraFormatada = formatarData(relistingData);
+    const dataDesocupacaoFormatada = formatarData(relistingData2);
+    const dataExataFormatada = formatarData(exataInput);
+    const anexoFormatado = formatarAnexo(anexosInput.value);
+    const anexoFormatado2 = formatarAnexo(anexosInput2.value);
+    const anexoFormatado3 = formatarAnexo(anexosInput3.value);
+    const ciqEmCopia = document.getElementById('ciqSelect');
+
+    // Não deixa passar campos vazios ou mal preenchidos
+
+    if (dataVigencia === '') {alert("Por favor, preencha a data de vigência da proposta.");return;}
+
+    if (condominioSelect.value === "null")  {alert("Por favor, preencha a opção do condomínio.");return;}
+    if ((condominioSelect.value === "possuiValor") && (condominioValor.value.length === 0))  {alert("Por favor, preencha o valor do condomínio.");return;}
+    if ((condominioSelect.value === "outrosCondominio") && (condominioOutros.value.length === 0))  {alert("Por favor, preencha as informações adicionais de Condominio.");return;}
+   
+    if (iptuSelect.value === "null") {alert("Por favor, preencha a opção de IPTU.");return;}
+    if ((iptuSelect.value === "possuiValor") && (iptuValor.value.length === 0))  {alert("Por favor, preencha o valor do IPTU.");return;}
+    if ((iptuSelect.value === "outrosIPTU") && (outrosIptu.value.length === 0))  {alert("Por favor, preencha as informações adicionais de IPTU.");return;}
+
+    if (relistingSelect.value === "null")  {alert("Por favor, preencha a opção do relisting.");return;}
+    if ((relistingData === '') && relistingSelect.value === 'rea'){alert("Por favor, preencha a data segura");return;}
+    if ((relistingData2 === '') &&  relistingSelect.value === 'red'){alert("Por favor, preencha a data de desocupação");return;}
+    if ((relistingData === '') &&  relistingSelect.value === 'red'){alert("Por favor, preencha a data segura.");return;}
+
+    if (exclusividadeSelect.value === "null")  {alert("Por favor, preencha a opção de exclusividade.");return;}
+    if ((exclusividadeSelect.value === 'ppmulti')&&(taxaInput.value.length === 0)) {alert("Por favor, preencha a taxa.");return;}
+
+    if (entradaSelect.value === "null")  {alert("Por favor, preencha a opção de entrada.");return;}
+    if ((entradaSelect.value === "flex")&&(flexivelInput.value.length === 0)) {alert("Por favor, preencha a opção de data flexivel.");return;}
+    if ((entradaSelect.value === "exata")&&(exataInput === '')){alert("Por favor, preencha a opção de data exata.");return;}
+
+
+    if (representanteSelect.value === 'null') {alert("Por favor, informe se há representante legal.");return;}
+    if ((representanteSelect.value === "outrosRepresentante") && (representanteInput.value.length === 0))  {alert("Por favor, preencha o detalhamento envolvendo representante legal");return;}
+
+    if (dadosBancarios.value === 'null') {alert("Por favor, selecione a informação de dados bancários");return;}
+    if ((dadosBancarios.value === 'fup')&&(fupDadosBancariosInput.value.length === 0)) {alert("Por favor, selecione o ticket do FUP de dados bancários");return;}
+
+
+
+    if (valoresCorretosSelect.value === 'null') {alert("Por favor, preencha se os valores estão corretos");return;}
+
+
+    if (anexosSelect.value === 'null') {alert("Por favor, preencha se há anexos");return;}
+    if ((anexosSelect.value === "sim") && (anexosInput.value.length === 0))  {alert("Por favor, insira os anexos dessa proposta");return;}
+
+    if (propostasIQSelect.value === 'null') {alert("Por favor, preencha se o inquilino possui mais de uma proposta");return;}
+    if ((propostasIQSelect.value === "iqMulti") && (propostasIQInput.value.length === 0))  {alert("Por favor, insira a(s) proposta(s) do(s) outros imóveis deste inquilino");return;}
+
+
+    if (statusSelect.value === 'null') {alert("Por favor, preencha o status dessa tarefa");return;}
+
+
+    if ((statusSelect.value === "alinhar") && (semSucessoInput.value.length === 0) && (contatoAtivoSelect.value === "semSucesso"))  {alert("Por favor, insira os tickets de contato sem sucesso");return;}
+    if ((statusSelect.value === "alinhar") && (contatoAtivoSelect.value === "null"))  {alert("Por favor, insira a informação sobre contato");return;}
+    if ((statusSelect.value === "alinhar") && (ciqEmCopia.value === "null"))  {alert("Por favor, insira a informação sobre o CIQ");return;}
+
+    // Não deixa passar pra minuta se o alinhamento for obrigatório
+    if ((propostasIQSelect.value === "iqMulti") && (statusSelect.value === "minuta"))  {alert("Por favor, insira selecione a opção de alinhamento, não podemos passar um IQ com mais de um imóvel");return;}
+    if ((valoresCorretosSelect.value === "nao") && (statusSelect.value === "minuta"))  {alert("Selecione o status de alinhamento! Não podemos passar para a minuta com o valor incorreto");return;}
+    if ((dadosBancarios.value === "alinhar") && (statusSelect.value === "minuta"))  {alert("Selecione o status de alinhamento! Não podemos passar para a minuta sem alinhar os dados bancários");return;}
+
+    // Função para montar a máscara
+
+   switch (statusSelect.value) {
+       case 'minuta':mensagem += `[🟢LIBERAÇÃO PARA MINUTA]<br>`;break;
+       case 'alinhar': mensagem += `[🔴ALINHAMENTO]<br>`;break;
+   }
+    mensagem += `Data de vigência da Proposta: ${dataVigenciaFormatada}`;
+    
+    mensagem += `<br>Relisting: `;
+    switch (relistingSelect.value) {
+        case 'nr':mensagem += `[Não é Relisting]`;break;
+        case 'rf':mensagem += `[Relisting finalizado]`;break;
+        case 'rea':mensagem += `[Relisting em andamento (data segura: ${dataSeguraFormatada})]`;break;
+        case 'red':mensagem += `[Early Demand: (data segura: ${dataSeguraFormatada}) + data de desocupação: ${dataDesocupacaoFormatada}]`;break;
+    }
+
+    mensagem += `<br>IPTU: `;
+    switch (iptuSelect.value) {
+        case 'possuiValor':mensagem += `[R$${iptuValor.value}]`;break;
+        case 'isento':mensagem += `[Isento pela prefeitura conforme histórico]`;break;
+        case 'naoDesmembrado':mensagem += `[Não desmembrado]`;break;
+        case 'outrosIPTU':mensagem += `[Outros - ${outrosIptu.value}]`;break;
+    }
+    mensagem += `<br>Condomínio: `;
+    switch (condominioSelect.value) {
+        case 'possuiValor':
+            mensagem += `[Possui - R$${condominioValor.value}]`;
+            break;
+        case 'naoPossui':
+            mensagem += `[Não possui]`;
+            break;
+        case 'outrosCondominio':
+            mensagem += `[Outros - ${condominioOutros.value}]`;
+            break;
+    }
+    mensagem += `<br>Exclusividade: `;
+    switch (exclusividadeSelect.value) {
+        case 'comexclusividade':
+            mensagem += `[SIM - 8,8%]`;
+            break;
+        case 'semexclusividade':
+            mensagem += `[NÃO - 9,3%]`;
+            break;
+        case 'ppmulti':
+            mensagem += `[PP Multi - ${taxaInput.value}%]`;
+            break;
+    }
+
+    mensagem += `<br>Entrada:  `;
+    switch (entradaSelect.value) {
+        case 'imediata':
+            mensagem += `[Imediata]`;
+            break;
+        case 'flex':
+            mensagem += `[Flexível - ${flexivelInput.value} dias.]`;
+            break;
+        case 'exata':
+            mensagem += `[Exata - ${dataExataFormatada}]`;
+            break;
+    }
+
+    mensagem += `<br>PP Multi:  `;
+    switch (exclusividadeSelect.value) {
+        case 'comexclusividade':
+            mensagem += `[NÃO]`;
+            break;
+        case 'semexclusividade':
+            mensagem += `[NÃO]`;
+            break;
+        case 'ppmulti':
+            mensagem += `[SIM]`;
+            break;
+    }
+
+    mensagem += `<br>Com representante legal:  `;
+    switch (representanteSelect.value) {
+        case 'pppj':
+            mensagem += `[SIM - PP PJ]`;
+            break;
+        case 'comrepresentante':
+            mensagem += `[SIM]`;
+            break;
+        case 'semrepresentante':
+            mensagem += `[NÃO]`;
+            break;
+        case 'outrosRepresentante':
+            mensagem += `Outros (${representanteInput.value})`;
+            break;
+    }
+
+    mensagem += `<br> `;
+    switch (dadosBancarios.value) {
+        case 'pelopp':
+            mensagem += `Dados Bancários informados pelo PP? [SIM]<br>
+            Dados Bancários retirados do contrato anterior? [NÃO]<br>
+            Fup Dados Bancários [NÃO]
+            `;
+            break;
+        case 'contratoanterior':
+            mensagem += `Dados Bancários informados pelo PP? [NÃO]<br>
+            Dados Bancários retirados do contrato anterior? [SIM]<br>
+            Fup Dados Bancários [NÃO]
+            `;
+            break;
+        case 'fup':
+            mensagem += `Dados Bancários informados pelo PP? [NÃO]<br>
+            Dados Bancários retirados do contrato anterior? [NÃO]<br>
+            Fup Dados Bancários [SIM - Ticket ${fupDadosBancariosInput.value}]`;
+            break;
+        case 'alinhar':
+            mensagem += `Dados Bancários informados pelo PP? [NÃO]<br>
+            Dados Bancários retirados do contrato anterior? [NÃO]<br>
+            Fup Dados Bancários [NÃO]`;
+            break;
+    }
+
+
+    mensagem += `<br>IQ + de uma proposta? `;
+    switch (propostasIQSelect.value) {
+        case 'iqMulti':
+            mensagem += `[SIM - ${propostasIQInput.value}]`;
+            break;
+        case 'iqUnico':
+            mensagem += `[NÃO]`;
+            break;
+    }
+
+    mensagem += `<br>Valores estão corretos? `;
+    switch (valoresCorretosSelect.value) {
+        case 'sim':
+            mensagem += `[SIM]`;
+            break;
+        case 'nao':
+            mensagem += `[NÃO]`;
+            break;
+    }
+
+    mensagem += `<br>Anexos: `;
+    switch (anexosSelect.value) {
+        case 'sim':
+            mensagem += `[SIM]`;
+            mensagem += `<br>`;
+        if (contadorAnexo = 0) {    
+        switch (anexosQuemFaz.value) {
+            case 'ppFaz':
+               mensagem += `1. PP faz antes da vigência: <br>${anexoFormatado}`;
+                break;
+            case 'iqFazReembolso':
+                mensagem += `1. IQ faz com reembolso: <br>${anexoFormatado}`;
+                break;
+            case 'iqFazSemReembolso':
+                mensagem += `1. IQ faz sem reembolso: <br>${anexoFormatado}`;
+                break;
+        }break;}
+
+
+        if (contadorAnexo = 1) {    
+        switch (anexosQuemFaz.value) {
+            case 'ppFaz':
+               mensagem += `1. PP faz antes da vigência: <br>${anexoFormatado}`;
+                break;
+            case 'iqFazReembolso':
+                mensagem += `1. IQ faz com reembolso: <br>${anexoFormatado}`;
+                break;
+            case 'iqFazSemReembolso':
+                mensagem += `1. IQ faz sem reembolso: <br>${anexoFormatado}`;
+                break;
+        }
+
+        switch (anexosQuemFaz2.value) {
+            case 'ppFaz':
+               mensagem += `2. PP faz antes da vigência: <br>${anexoFormatado2}`;
+                break;
+            case 'iqFazReembolso':
+                mensagem += `2. IQ faz com reembolso: <br>${anexoFormatado2}`;
+                break;
+            case 'iqFazSemReembolso':
+                mensagem += `2. IQ faz sem reembolso: <br>${anexoFormatado2}`;
+                break;
+        }break;}
+
+        if (contadorAnexo = 2) {    
+        switch (anexosQuemFaz.value) {
+            case 'ppFaz':
+               mensagem += `1. PP faz antes da vigência: <br>${anexoFormatado}`;
+                break;
+            case 'iqFazReembolso':
+                mensagem += `1. IQ faz com reembolso: <br>${anexoFormatado}`;
+                break;
+            case 'iqFazSemReembolso':
+                mensagem += `1. IQ faz sem reembolso: <br>${anexoFormatado}`;
+                break;
+        }
+
+        switch (anexosQuemFaz2.value) {
+            case 'ppFaz':
+               mensagem += `2. PP faz antes da vigência: <br>${anexoFormatado2}`;
+                break;
+            case 'iqFazReembolso':
+                mensagem += `2. IQ faz com reembolso: <br>${anexoFormatado2}`;
+                break;
+            case 'iqFazSemReembolso':
+                mensagem += `2. IQ faz sem reembolso: <br>${anexoFormatado2}`;
+                break;
+        }
+        switch (anexosQuemFaz3.value) {
+            case 'ppFaz':
+               mensagem += `3. PP faz antes da vigência: <br>${anexoFormatado3}`;
+                break;
+            case 'iqFazReembolso':
+                mensagem += `3. IQ faz com reembolso: <br>${anexoFormatado3}`;
+                break;
+            case 'iqFazSemReembolso':
+                mensagem += `3. IQ faz sem reembolso: <br>${anexoFormatado3}`;
+                break;
+        }break;}
+        case 'nao':mensagem += `[NÃO]`;break;}
+
+
+    switch (statusSelect.value) {
+        case 'alinhar':
+            mensagem += `<br>Contatos:<br>Tentativa de contato Ativo:  `;
+            switch (contatoAtivoSelect.value) {
+                    case 'sucesso':mensagem += `[Com sucesso]`;break;
+                    case 'semSucesso':mensagem += `[Sem sucesso - ${semSucessoInput.value}]`;break;
+                    case 'caixaPostal':mensagem += `[Caixa postal]`;break;
+                }break;
+            }
+    mensagem += `<br>`;
+    switch (ciqEmCopia.value) {
+        case 'sim':mensagem += `CIQ em cópia? [SIM]`;break;
+        case 'nao':mensagem += `CIQ em cópia? [N/A]`;break;}
+
+    switch (dadosBancarios.value) {case 'alinhar':mensagem += `<br>Dados Bancários em alinhamento. PP sem dados.<br>`;break;}
+
+    if (observacaoInput.value.length !== 0)  {mensagem += `<br>Observação: (${observacaoInput.value})`;}
+
+    const modalText = document.getElementById("modal-text");
+    modalText.innerHTML = mensagem;
+
+    // Exiba o modal
+    const modalContainer = document.getElementById("modal-container");
+    modalContainer.style.display = "flex";
+}
+
+function fecharModal() {
+    // Feche o modal
+     const modalContainer = document.getElementById("modal-container");
+     modalContainer.style.display = "none";
+}
+
+
+function mostrarDataSegura() {
+    const relistingSelect = document.getElementById('relisting');
+    const dataSegura = document.getElementById('dataSegura');
+    const dataSeguraSpan = document.getElementById('dataSeguraSpan');
+    const relistingData2 = document.getElementById('dataDesocupacao');
+    const relistingSpan = document.getElementById('dataDesocupacaoSpan');
+ 
+    if (relistingSelect.value === 'rea' || relistingSelect.value === 'red') {
+      dataSegura.style.display = 'block';
+      dataSeguraSpan.style.display = 'block';
+    } else {
+      dataSegura.style.display = 'none';
+      dataSeguraSpan.style.display = 'none';
+    }
+
+  if (relistingSelect.value === 'red') {
+    relistingData2.style.display = 'block';
+    relistingSpan.style.display = 'block';
+
+  } else {
+    relistingData2.style.display = 'none';
+    relistingSpan.style.display = 'none';
+  }
+}
+ 
+  function mostrarCampoIPTU() {
+    const iptuSelect = document.getElementById('iptu');
+    const iptuValor = document.getElementById('iptuValor');
+    const iptuOutros = document.getElementById('iptuOutros');
+ 
+    if (iptuSelect.value === 'possuiValor') {
+      iptuValor.style.display = 'block';
+      iptuOutros.style.display = 'none';
+    } else if (iptuSelect.value === 'outrosIPTU') {
+      iptuValor.style.display = 'none';
+      iptuOutros.style.display = 'block';
+    } else {
+      iptuValor.style.display = 'none';
+      iptuOutros.style.display = 'none';
+    }
+  }
+ 
+  function mostrarCampoCondominio() {
+    const condominioSelect = document.getElementById('condominio');
+    const condominioValor = document.getElementById('condominioValor');
+    const condominioOutros = document.getElementById('condominioOutros');
+ 
+    if (condominioSelect.value === 'possuiValor') {
+      condominioValor.style.display = 'block';
+      condominioOutros.style.display = 'none';
+    } else if (condominioSelect.value === 'outrosCondominio') {
+      condominioValor.style.display = 'none';
+      condominioOutros.style.display = 'block';
+    } else {
+      condominioValor.style.display = 'none';
+      condominioOutros.style.display = 'none';
+    }
+  }
+  function mostrarTaxa() {
+    const exclusividadeSelect = document.getElementById('exclusividade');
+    const taxaInput = document.getElementById('taxa');
+ 
+    if (exclusividadeSelect.value === 'ppmulti') {
+      taxaInput.style.display = 'block';
+    } else {
+      taxaInput.style.display = 'none';
+    }
+  }
+ 
+  function mostrarData() {
+    const entradaSelect = document.getElementById('entrada');
+    const flexivelInput = document.getElementById('flexivel');
+    const exataInput = document.getElementById('exata');
+    const flexivelSpan = document.getElementById('flexivelSpan');
+    const exataSpan = document.getElementById('exataSpan');
+ 
+    if (entradaSelect.value === 'flex') {
+      flexivelInput.style.display = 'block';
+      flexivelSpan.style.display = 'block';
+    } else {
+        flexivelInput.style.display = 'none';
+        flexivelSpan.style.display = 'none';
+    }
+    if (entradaSelect.value === 'exata') {
+        exataInput.style.display = 'block';
+        exataSpan.style.display = 'block';
+      } else {
+        exataInput.style.display = 'none';
+        exataSpan.style.display = 'none';
+      }
+  }
+ 
+  function mostrarOpcaoRepresentante() {
+    const representanteSelect = document.getElementById('representante');
+    const representanteInput = document.getElementById('outrosRepresentanteInput');
+    const representanteSpan = document.getElementById('outrosRepresentanteSpan');
+ 
+    if (representanteSelect.value === 'outrosRepresentante') {
+      representanteSpan.style.display = 'block';
+      representanteInput.style.display = 'block';
+    } else {
+        representanteInput.style.display = 'none';
+        representanteSpan.style.display = 'none';
+    }
+  }
+ 
+  function mostrarTicketFup() {
+    const dadosBancarios = document.getElementById('dadosbancarios');
+    const fupDadosBancariosInput = document.getElementById('fupDadosBancariosInput');
+    const fupDadosBancariosSpan = document.getElementById('fupDadosBancariosSpan');
+ 
+    if (dadosBancarios.value === 'fup') {
+      fupDadosBancariosSpan.style.display = 'block';
+      fupDadosBancariosInput.style.display = 'block';
+    } else {
+        fupDadosBancariosInput.style.display = 'none';
+        fupDadosBancariosSpan.style.display = 'none';
+    }
+  }
+ 
+  function adicionarImovel() {
+    const propostasIQSelect = document.getElementById('propostasIQ');
+    const propostasIQInput = document.getElementById('propostasIQInput');
+    const propostasIQSpan = document.getElementById('propostasIQSpan');
+    if (propostasIQSelect.value === 'iqMulti') {
+      propostasIQSpan.style.display = 'block';
+      propostasIQInput.style.display = 'block';
+    } else {
+        propostasIQInput.style.display = 'none';
+        propostasIQSpan.style.display = 'none';
+    }
+  }
+ 
+  function adicionarAnexo() {
+    const anexosSelect = document.getElementById('anexos');
+    const anexosInput = document.getElementById('anexosInput');
+    const anexosSpan = document.getElementById('anexosSpan');
+    const anexosQuemFaz = document.getElementById('quemFaz');
+    const botaoAnexo = document.getElementById('botaoanexo');
+    if (anexosSelect.value === 'sim') {
+      anexosSpan.style.display = 'block';
+      anexosInput.style.display = 'block';
+      anexosQuemFaz.style.display = 'block';
+      botaoAnexo.style.display = 'block';
+    } else {
+        anexosInput.style.display = 'none';
+        anexosSpan.style.display = 'none';
+        anexosQuemFaz.style.display = 'none';
+        botaoAnexo.style.display = 'none';
+    }
+  }
+ 
+  function mostrarContato() {
+    const contatoAtivoSelect = document.getElementById('contatoAtivo');
+    const statusContato = document.getElementById('statusContato');
+    const contatoAtivoSpan = document.getElementById('contatoAtivoSpan');
+    const semSucessoInput = document.getElementById('semSucessoInput');
+    const semSucessoSpan = document.getElementById('semSucessoSpan');
+    const ciqEmCopia = document.getElementById('ciqSelect');
+    const ciqSpan = document.getElementById('ciqspan');
+    if (statusContato.value === 'alinhar') {
+      contatoAtivoSelect.style.display = 'block';
+      contatoAtivoSpan.style.display = 'block';
+      ciqEmCopia.style.display = 'block';
+      ciqSpan.style.display = 'block';
+    } else {
+        contatoAtivoSelect.style.display = 'none';
+        contatoAtivoSpan.style.display = 'none';
+        semSucessoInput.style.display = 'none';
+        semSucessoSpan.style.display = 'none';
+        ciqEmCopia.style.display = 'none';
+        ciqSpan.style.display = 'none';
+    }
+  }
+ 
+  function mostrarTicketContato() {
+    const contatoAtivoSelect = document.getElementById('contatoAtivo');
+    const semSucessoInput = document.getElementById('semSucessoInput');
+    const semSucessoSpan = document.getElementById('semSucessoSpan');
+    const statusContato = document.getElementById('statusContato');
+
+    if ((contatoAtivoSelect.value === 'semSucesso') && (statusContato.value === 'alinhar')) {
+        semSucessoInput.style.display = 'block';
+        semSucessoSpan.style.display = 'block';
+
+      } else {
+          semSucessoInput.style.display = 'none';
+          semSucessoSpan.style.display = 'none';
+      }
+  }
+
+  function formatarData(data) {
+    const dateSplit = data.toString().split('-');
+    const year = dateSplit[0];
+    const month = dateSplit[1];
+    const day = dateSplit[2];
+    return`${day}/${month}/${year}`;
+}
+  function formatarAnexo(anexosInput){
+    const strSplit = anexosInput.split(';');
+
+    var str = '';
+    const listSize = strSplit.length-1;
+
+    for(var i=0; i<listSize; i++){
+    str += `${strSplit[i]};<br>`;
+}
+
+str += `${strSplit[listSize]}`; 
+return str;
+}
+
+
+
+// Implementação futura #ATT
+
+
+
+let contadorAnexo = 0;
+
+function novoAnexo(){
+    const anexosInput3 = document.getElementById('anexosInput3');
+    const anexosSpan3 = document.getElementById('anexosSpan3');
+    const anexosQuemFaz3 = document.getElementById('quemFaz3');
+    const botaoAnexo = document.getElementById('botaoanexo');
+    const botaoAnexo2 = document.getElementById('botaoanexo2');
+    const botaoRemoverAnexo = document.getElementById('botaoremoveranexo');
+    const botaoRemoverAnexo2 = document.getElementById('botaoremoveranexo2');
+    const anexosInput2 = document.getElementById('anexosInput2');
+    const anexosSpan2 = document.getElementById('anexosSpan2');
+    const anexosQuemFaz2 = document.getElementById('quemFaz2');
+    contadorAnexo=1;
+    condicaoAnexo();
+    if (contadorAnexo===1) {
+      botaoRemoverAnexo.style.display = 'block';
+      botaoRemoverAnexo2.style.display = 'none';
+      anexosInput2.style.display = 'block';
+      anexosSpan2.style.display = 'block';
+      anexosQuemFaz2.style.display = 'block';
+      botaoAnexo.style.display = 'none';
+      botaoAnexo2.style.display = 'block';
+      anexosInput3.style.display = 'none';
+      anexosSpan3.style.display = 'none';
+      anexosQuemFaz3.style.display = 'none';
+    }
+}
+
+function removerAnexo2(){
+    const anexosInput3 = document.getElementById('anexosInput3');
+    const anexosSpan3 = document.getElementById('anexosSpan3');
+    const anexosQuemFaz3 = document.getElementById('quemFaz3');
+    const botaoAnexo2 = document.getElementById('botaoanexo2');
+    const botaoRemoverAnexo = document.getElementById('botaoremoveranexo');
+    const botaoRemoverAnexo2 = document.getElementById('botaoremoveranexo2');
+    contadorAnexo=1;
+    condicaoAnexo();
+
+    if (contadorAnexo===1) {
+      botaoRemoverAnexo.style.display = 'block';
+      botaoAnexo2.style.display = 'block';
+      botaoRemoverAnexo2.style.display = 'none';
+      anexosInput3.style.display = 'none';
+      anexosSpan3.style.display = 'none';
+      anexosQuemFaz3.style.display = 'none';
+    }
+}
+
+function removerAnexo(){
+    const botaoAnexo = document.getElementById('botaoanexo');
+    const botaoAnexo2 = document.getElementById('botaoanexo2');
+    const botaoRemoverAnexo = document.getElementById('botaoremoveranexo');
+    const botaoRemoverAnexo2 = document.getElementById('botaoremoveranexo2');
+    const anexosInput2 = document.getElementById('anexosInput2');
+    const anexosSpan2 = document.getElementById('anexosSpan2');
+    const anexosQuemFaz2 = document.getElementById('quemFaz2');
+
+    contadorAnexo=0;
+    condicaoAnexo();
+     if (contadorAnexo === 0) {
+      anexosSpan2.style.display = 'none';
+      anexosInput2.style.display = 'none';
+      anexosQuemFaz2.style.display = 'none';    
+      botaoAnexo2.style.display = 'none';
+      botaoRemoverAnexo.style.display = 'none';
+      botaoRemoverAnexo2.style.display = 'none';
+      botaoAnexo.style.display = 'block';
+      
+    }
+}
+
+function novoAnexo2(){
+    const anexosInput3 = document.getElementById('anexosInput3');
+    const anexosSpan3 = document.getElementById('anexosSpan3');
+    const anexosQuemFaz3 = document.getElementById('quemFaz3');
+    const botaoAnexo = document.getElementById('botaoanexo');
+    const botaoAnexo2 = document.getElementById('botaoanexo2');
+    const botaoRemoverAnexo = document.getElementById('botaoremoveranexo');
+    const botaoRemoverAnexo2 = document.getElementById('botaoremoveranexo2');
+    contadorAnexo=2;
+    condicaoAnexo();
+
+    if (contadorAnexo === 2) {
+      anexosInput3.style.display = 'block';
+      anexosSpan3.style.display = 'block';
+      anexosQuemFaz3.style.display = 'block';
+
+
+      botaoAnexo.style.display = 'none';
+      botaoAnexo2.style.display = 'none';
+      botaoRemoverAnexo.style.display = 'none';
+
+      botaoRemoverAnexo2.style.display = 'block';
+    }
+}
+
+
+
+function condicaoAnexo(){
+    alert("contador: " + contadorAnexo);
+
+}

@@ -1,0 +1,141 @@
+function submitForm() {
+    let mensagem = "";
+    const ppouiqSelect = document.getElementById('ppouiq');
+    const nomeInput = document.getElementById('nome');
+    const telefoneInput = document.getElementById('telefone');
+    const emailInput = document.getElementById('email');
+    const imovelInput = document.getElementById('imovel');
+    const propostaInput = document.getElementById('proposta');
+    const motivoInput = document.getElementById('motivo');
+    const ticketInput = document.getElementById('ticket');
+    const observacaoInput = document.getElementById('statusObservacao');
+    const contatoAtivoSelect = document.getElementById('contatoAtivo');
+    const contatoAtivoSpan = document.getElementById('contatoAtivoSpan');
+    
+    if (ppouiqSelect.value === "null") {
+        alert("Por favor, preencha sobre quem é esse alinhamento.");
+        return;
+    }
+
+    if (nomeInput.value.length === 0) {
+      alert("Por favor, preencha o nome.");
+      return;
+  }
+
+  if (telefoneInput.value.length === 0) {
+    alert("Por favor, preencha o telefone.");
+    return;
+}
+
+if (emailInput.value.length === 0) {
+    alert("Por favor, preencha o email.");
+    return;
+}
+
+if (imovelInput.value.length === 0) {
+    alert("Por favor, preencha o imóvel.");
+    return;
+}
+
+if (propostaInput.value.length === 0) {
+    alert("Por favor, preencha a proposta.");
+    return;
+}
+
+if (motivoInput.value.length === 0) {
+    alert("Por favor, preencha o motivo do alinhamento.");
+    return;
+}
+
+if (ticketInput.value.length === 0) {
+    alert("Por favor, preencha o ticket.");
+    return;
+}
+
+   switch (ppouiqSelect.value) {
+       case 'pp':
+           mensagem += `[🏠Alinhamento com PP]<br>
+           Nome do PP: ${nomeInput.value}<br>
+           `;
+           break;
+       case 'iq':
+           mensagem += `[🔑Verificação com IQ]<br>
+           Nome do IQ: ${nomeInput.value}<br>
+           `;
+           break;
+   }
+
+   mensagem += `Telefone: ${telefoneInput.value}<br>
+   Email: ${emailInput.value}<br>
+   Imóvel: ${imovelInput.value}<br>
+   Proposta: ${propostaInput.value} <br>
+   Motivo: ${motivoInput.value}<br>
+   Ticket: ${ticketInput.value}<br>`;
+   mensagem += `Tentativa de contato Ativo:  `;
+   switch (contatoAtivoSelect.value) {
+    case 'sucesso':
+        mensagem += `[Com sucesso]`;
+        break;
+    case 'semSucesso':
+        mensagem += `[Sem sucesso]`;
+        break;
+    case 'caixaPostal':
+        mensagem += `[Caixa postal]`;
+        break;
+}
+
+
+
+    if (observacaoInput.value.length !== 0)  {
+        mensagem += `<br>Observação: (${observacaoInput.value})`;
+    }
+
+    const modalText = document.getElementById("modal-text");
+    modalText.innerHTML = mensagem;
+
+    // Exiba o modal
+    const modalContainer = document.getElementById("modal-container");
+    modalContainer.style.display = "flex";
+}
+
+function fecharModal() {
+    // Feche o modal
+     const modalContainer = document.getElementById("modal-container");
+     modalContainer.style.display = "none";
+}
+
+
+function mostrarPPOUIQ() {
+    const ppouiqSelect = document.getElementById('ppouiq');
+    const nomeInput = document.getElementById('nome');
+    const telefoneInput = document.getElementById('telefone');
+    const emailInput = document.getElementById('email');
+    const imovelInput = document.getElementById('imovel');
+    const propostaInput = document.getElementById('proposta');
+    const motivoInput = document.getElementById('motivo');
+    const ticketInput = document.getElementById('ticket');
+    const contatoAtivoSelect = document.getElementById('contatoAtivo');
+    const contatoAtivoSpan = document.getElementById('contatoAtivoSpan');
+ 
+    if (ppouiqSelect.value === 'iq' || ppouiqSelect.value === 'pp') {
+        nomeInput.style.display = 'block';
+        telefoneInput.style.display = 'block';
+        emailInput.style.display = 'block';
+        imovelInput.style.display = 'block';
+        propostaInput.style.display = 'block';
+        motivoInput.style.display = 'block';
+        ticketInput.style.display = 'block';
+        contatoAtivoSelect.style.display = 'block';
+        contatoAtivoSpan.style.display = 'block';
+    } else {
+        nomeInput.style.display = 'none';
+        telefoneInput.style.display = 'none';
+        emailInput.style.display = 'none';
+        imovelInput.style.display = 'none';
+        propostaInput.style.display = 'none';
+        motivoInput.style.display = 'none';
+        ticketInput.style.display = 'none';
+        contatoAtivoSelect.style.display = 'none';
+        contatoAtivoSpan.style.display = 'none';
+    }
+}
